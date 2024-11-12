@@ -3,7 +3,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	[SerializeField] private GameObject[] skins;
+
 	private int skinIndex = 0;
+	public OnGameEnd OnGameEnd;
 
 	public static GameManager Instance { get; private set; }
 	private void Awake()
@@ -15,13 +17,10 @@ public class GameManager : MonoBehaviour
 		}
 		Instance = this;
 	}
-	public void EndGame()
-	{
-		Debug.Log("Game Over");
-	}
 	public GameObject GetNextSkin()
 	{
 		skinIndex = (skinIndex + 1) % skins.Length;
 		return skins[skinIndex];
 	}
 }
+	public delegate void OnGameEnd(bool _won);

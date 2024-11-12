@@ -17,11 +17,20 @@ public class PlayerController : MonoBehaviour
 	private Vector2 currentDir;
 	private Vector2 currentDirVelocity;
 	private float velocityY;
-
+	private bool canMove = true;
+	private void Start()
+	{
+		GameManager.Instance.OnGameEnd += OnGameEnd;
+	}
+	private void OnGameEnd(bool _)
+	{
+		canMove = false;
+	}
 	private void Update()
 	{
+		if (!canMove) { return; }
 		move();
-		if(Input.GetKeyDown(KeyCode.S))
+		if (Input.GetKeyDown(KeyCode.S))
 		{
 			var _go = ModelSwapperPlugin.ModelSwapper.SwapModel(transform.GetChild(0).gameObject, GameManager.Instance.GetNextSkin());
 			_go.transform.SetParent(transform);
