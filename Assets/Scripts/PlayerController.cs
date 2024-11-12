@@ -21,15 +21,20 @@ public class PlayerController : MonoBehaviour
 	private void Update()
 	{
 		move();
-		if (!isGrounded) { return; }
+		if(Input.GetKeyDown(KeyCode.S))
+		{
+			var _go = ModelSwapperPlugin.ModelSwapper.SwapModel(transform.GetChild(0).gameObject, GameManager.Instance.GetNextSkin());
+			_go.transform.SetParent(transform);
+			_go.transform.localScale = Vector3.one;
+		}
 	}
 	private void move()
 	{
-        Vector2 _targetDir = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
-        {
-            y = 0
-        };
-        _targetDir.Normalize();
+		Vector2 _targetDir = new(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))
+		{
+			y = 0
+		};
+		_targetDir.Normalize();
 
 		currentDir = Vector2.SmoothDamp(currentDir, _targetDir, ref currentDirVelocity, moveSmoothTime);
 		Vector3 _velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * speed + Vector3.up * velocityY;
